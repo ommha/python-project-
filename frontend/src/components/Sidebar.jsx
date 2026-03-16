@@ -76,37 +76,37 @@ const Sidebar = ({
       {activeTab === 'entries' && (
         <>
           {/* Action Buttons */}
-          <div className="flex items-center gap-2 p-3 border-b border-gray-100">
+          <div className="flex flex-wrap items-center gap-2 p-3 border-b border-gray-100">
             <Button
               variant="default"
               size="sm"
-              className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1"
+              className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1 text-xs px-2"
               onClick={shuffleEntries}
             >
-              <Shuffle className="w-4 h-4" />
+              <Shuffle className="w-3 h-3" />
               Shuffle
             </Button>
             <Button
               variant="default"
               size="sm"
-              className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1"
+              className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1 text-xs px-2"
               onClick={sortEntries}
             >
-              <ArrowUpDown className="w-4 h-4" />
+              <ArrowUpDown className="w-3 h-3" />
               Sort
             </Button>
             <Button
               variant="default"
               size="sm"
-              className="bg-green-500 hover:bg-green-600 text-white flex items-center gap-1"
+              className="bg-green-500 hover:bg-green-600 text-white flex items-center gap-1 text-xs px-2"
             >
-              <Image className="w-4 h-4" />
+              <Image className="w-3 h-3" />
               Add image
               <ChevronDown className="w-3 h-3" />
             </Button>
-            <div className="flex items-center gap-2 ml-auto">
-              <Checkbox id="advanced" />
-              <label htmlFor="advanced" className="text-sm text-gray-600">Advanced</label>
+            <div className="flex items-center gap-1 ml-auto">
+              <Checkbox id="advanced" className="w-4 h-4" />
+              <label htmlFor="advanced" className="text-xs text-gray-600">Advanced</label>
             </div>
           </div>
 
