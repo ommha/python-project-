@@ -57,32 +57,32 @@ const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => 
                 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                  <div className="absolute bottom-full left-0 right-0 mb-2 bg-[#1e1e2e] border border-gray-700/50 rounded-xl shadow-2xl z-50 max-h-64 overflow-y-auto">
+                  <div className="absolute bottom-full left-0 right-0 mb-2 bg-[#1e1e2e] border border-gray-700/50 rounded-xl shadow-2xl z-[100] max-h-64 overflow-y-auto">
                     {/* Random Option */}
-                    <button
-                      onClick={() => handleSelect(RANDOM_OPTION)}
-                      className={`w-full text-left px-4 py-3 flex items-center gap-2 hover:bg-green-500/20 transition-colors ${
+                    <div
+                      onClick={(e) => { e.stopPropagation(); handleSelect(RANDOM_OPTION); }}
+                      className={`w-full text-left px-4 py-3 flex items-center gap-2 hover:bg-green-500/20 transition-colors cursor-pointer ${
                         selectedWinner === RANDOM_OPTION ? 'bg-green-500/20 text-green-400' : 'text-green-400'
                       }`}
                     >
                       <Shuffle className="w-4 h-4" />
                       Random (True Random)
-                    </button>
+                    </div>
                     
                     {/* Divider */}
                     <div className="h-px bg-gray-700/50 mx-2"></div>
                     
                     {/* Name Options */}
                     {entries.map((entry, index) => (
-                      <button
+                      <div
                         key={index}
-                        onClick={() => handleSelect(entry)}
-                        className={`w-full text-left px-4 py-3 hover:bg-blue-500/20 transition-colors ${
+                        onClick={(e) => { e.stopPropagation(); handleSelect(entry); }}
+                        className={`w-full text-left px-4 py-3 hover:bg-blue-500/20 transition-colors cursor-pointer ${
                           selectedWinner === entry ? 'bg-blue-500/20 text-blue-400' : 'text-gray-200'
                         }`}
                       >
                         {entry}
-                      </button>
+                      </div>
                     ))}
                   </div>
                 )}
