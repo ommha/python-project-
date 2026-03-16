@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Dialog, DialogContent } from './ui/dialog';
 import { Button } from './ui/button';
-import { X, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const WinnerModal = ({ isOpen, onClose, winner, onRemove }) => {
@@ -10,7 +10,7 @@ const WinnerModal = ({ isOpen, onClose, winner, onRemove }) => {
   useEffect(() => {
     if (isOpen && winner) {
       // Trigger confetti
-      const duration = 4000;
+      const duration = 5000;
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
 
@@ -43,26 +43,48 @@ const WinnerModal = ({ isOpen, onClose, winner, onRemove }) => {
         });
       }, 250);
 
-      // Play clapping sound
+      // Play continuous applause sound
       if (audioRef.current) {
         audioRef.current.currentTime = 0;
+        audioRef.current.loop = true;
+        audioRef.current.volume = 0.5;
         audioRef.current.play().catch(e => console.log('Audio play failed:', e));
       }
 
-      return () => clearInterval(interval);
+      return () => {
+        clearInterval(interval);
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+        }
+      };
+    } else {
+      // Stop sound when modal closes
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
     }
   }, [isOpen, winner]);
 
+  const handleClose = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    onClose();
+  };
+
   return (
     <>
-      {/* Hidden audio element for clapping sound */}
+      {/* Hidden audio element for continuous applause */}
       <audio 
         ref={audioRef} 
-        src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3"
+        src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"
         preload="auto"
       />
       
-      <Dialog open={isOpen} onOpenChange={onClose}>
+      <Dialog open={isOpen} onOpenChange={handleClose}>
         <DialogContent className="sm:max-w-lg p-0 overflow-hidden bg-transparent border-0 shadow-2xl">
           <div className="rounded-lg overflow-hidden">
             {/* Yellow Header */}
@@ -83,13 +105,17 @@ const WinnerModal = ({ isOpen, onClose, winner, onRemove }) => {
               <div className="flex justify-end gap-3">
                 <Button
                   variant="ghost"
-                  onClick={onClose}
-                  className="text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2"
+                  onClick={handleClose}
+                  className="text-gray-300 hover:text-white hover:bg-gray-800"
                 >
                   Close
                 </Button>
                 <Button
                   onClick={() => {
+                    if (audioRef.current) {
+                      audioRef.current.pause();
+                      audioRef.current.currentTime = 0;
+                    }
                     onRemove(winner);
                     onClose();
                   }}
