@@ -113,9 +113,9 @@ const Sidebar = ({
           </div>
 
           {/* Entries Textarea */}
-          <div className="flex-1 p-4">
+          <div className="flex-1 p-4 overflow-hidden">
             <textarea
-              className="w-full h-64 p-4 bg-[#12121a] border border-gray-700/50 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-gray-200 placeholder-gray-500 text-sm leading-relaxed transition-all duration-200"
+              className="w-full h-56 p-4 bg-[#12121a] border border-gray-700/50 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-gray-200 placeholder-gray-500 text-sm leading-relaxed transition-all duration-200 overflow-y-auto"
               value={textValue}
               onChange={handleTextChange}
               placeholder="Enter names, one per line..."
