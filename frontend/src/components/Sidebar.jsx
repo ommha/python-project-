@@ -158,18 +158,18 @@ const Sidebar = ({
       )}
 
       {activeTab === 'results' && (
-        <div className="flex-1 p-3 overflow-auto">
+        <div className="flex-1 p-3 overflow-auto min-h-[300px]">
           {results.length === 0 ? (
             <div className="text-center text-gray-500 py-8">
               <p>No results yet</p>
               <p className="text-sm mt-1">Spin the wheel to see results here</p>
             </div>
           ) : (
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {results.map((result, index) => (
-                <li key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="font-medium text-gray-700">{result}</span>
-                  <span className="text-sm text-gray-400">#{results.length - index}</span>
+                <li key={index} className="flex items-center justify-between px-3 py-2 hover:bg-gray-50 rounded transition-colors">
+                  <span className="text-gray-700">{result}</span>
+                  <span className="text-xs text-gray-400">#{results.length - index}</span>
                 </li>
               ))}
             </ul>
