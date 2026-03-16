@@ -33,12 +33,16 @@ const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => 
                 <SelectTrigger className="w-full bg-[#12121a] border-gray-700/50 text-gray-200 rounded-lg py-3 hover:border-blue-500/50 transition-all duration-200">
                   <SelectValue placeholder="Select winner..." />
                 </SelectTrigger>
-                <SelectContent className="bg-[#1e1e2e] border-gray-700/50 rounded-xl shadow-2xl">
+                <SelectContent 
+                  className="bg-[#1e1e2e] border-gray-700/50 rounded-xl shadow-2xl z-50"
+                  position="popper"
+                  sideOffset={5}
+                >
                   {entries.map((entry, index) => (
                     <SelectItem 
                       key={index} 
                       value={entry} 
-                      className="text-gray-200 hover:bg-blue-500/20 focus:bg-blue-500/20 rounded-lg cursor-pointer"
+                      className="text-gray-200 hover:bg-blue-500/20 focus:bg-blue-500/20 rounded-lg cursor-pointer px-3 py-2"
                     >
                       {entry}
                     </SelectItem>
