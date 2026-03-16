@@ -1,47 +1,109 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Dialog, DialogContent } from './ui/dialog';
 import { Button } from './ui/button';
 import { X, Trash2 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 const WinnerModal = ({ isOpen, onClose, winner, onRemove }) => {
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen && winner) {
+      // Trigger confetti
+      const duration = 4000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+      const randomInRange = (min, max) => Math.random() * (max - min) + min;
+
+      const interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          return;
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+
+        // Confetti from left side
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+          colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500']
+        });
+        
+        // Confetti from right side
+        confetti({
+          ...defaults,
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+          colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500']
+        });
+      }, 250);
+
+      // Play clapping sound
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(e => console.log('Audio play failed:', e));
+      }
+
+      return () => clearInterval(interval);
+    }
+  }, [isOpen, winner]);
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-white border-0 shadow-2xl">
-        <div className="flex flex-col items-center py-8">
-          {/* Celebration Icon */}
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400 via-green-400 to-blue-500 flex items-center justify-center mb-6 animate-pulse">
-            <div className="w-10 h-10 bg-white rounded-full"></div>
+    <>
+      {/* Hidden audio element for clapping sound */}
+      <audio 
+        ref={audioRef} 
+        src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3"
+        preload="auto"
+      />
+      
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-lg p-0 overflow-hidden bg-transparent border-0 shadow-2xl">
+          <div className="rounded-lg overflow-hidden">
+            {/* Yellow Header */}
+            <div className="bg-yellow-400 px-6 py-4">
+              <h2 className="text-2xl font-bold text-gray-800 text-center">
+                We have a winner!
+              </h2>
+            </div>
+            
+            {/* Dark Body */}
+            <div className="bg-gray-900 px-8 py-10">
+              {/* Winner Name */}
+              <p className="text-5xl font-bold text-white text-center mb-8 drop-shadow-lg">
+                {winner}
+              </p>
+              
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-3">
+                <Button
+                  variant="ghost"
+                  onClick={onClose}
+                  className="text-gray-300 hover:text-white hover:bg-gray-800 flex items-center gap-2"
+                >
+                  Close
+                </Button>
+                <Button
+                  onClick={() => {
+                    onRemove(winner);
+                    onClose();
+                  }}
+                  className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Remove
+                </Button>
+              </div>
+            </div>
           </div>
-          
-          {/* Winner Text */}
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">We have a winner!</h2>
-          <p className="text-5xl font-bold text-blue-600 mb-8">{winner}</p>
-          
-          {/* Action Buttons */}
-          <div className="flex gap-3">
-            <Button
-              variant="outline"
-              onClick={onClose}
-              className="flex items-center gap-2"
-            >
-              <X className="w-4 h-4" />
-              Close
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => {
-                onRemove(winner);
-                onClose();
-              }}
-              className="flex items-center gap-2 bg-red-500 hover:bg-red-600"
-            >
-              <Trash2 className="w-4 h-4" />
-              Remove
-            </Button>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
