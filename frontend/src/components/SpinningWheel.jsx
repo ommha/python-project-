@@ -66,8 +66,11 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
     <div className="relative flex items-center justify-center">
       {/* Wheel Container */}
       <div 
-        className="relative cursor-pointer"
+        className="relative cursor-pointer select-none"
         onClick={spinWheel}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') spinWheel(); }}
       >
         {/* SVG Wheel */}
         <svg
@@ -75,7 +78,7 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
           width="450"
           height="450"
           viewBox="0 0 450 450"
-          className="drop-shadow-2xl"
+          className="drop-shadow-2xl pointer-events-none"
           style={{
             transform: `rotate(${rotation}deg)`,
             transition: isSpinning ? 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)' : 'none',
