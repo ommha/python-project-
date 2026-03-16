@@ -37,7 +37,7 @@ const HomePage = () => {
   }, [entries, selectedWinner]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-pink-100 via-pink-50 to-blue-100">
+    <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(135deg, #fce4e4 0%, #f8e1e1 25%, #f5e6e6 50%, #e8e4f0 75%, #dde8f4 100%)' }}>
       <Header />
       
       <div className="flex-1 flex">
