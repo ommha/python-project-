@@ -30,9 +30,9 @@ const HomePage = () => {
     }
   };
 
-  // Update selectedWinner when entries change
+  // Update selectedWinner when entries change - but keep __RANDOM__ if selected
   React.useEffect(() => {
-    if (entries.length > 0 && !entries.includes(selectedWinner)) {
+    if (entries.length > 0 && selectedWinner !== '__RANDOM__' && !entries.includes(selectedWinner)) {
       setSelectedWinner(entries[0]);
     }
   }, [entries, selectedWinner]);
