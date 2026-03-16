@@ -19,21 +19,36 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
     let winnerIndex;
     let actualWinner;
     
-    // Check if Kylie (hidden winner) is selected
+    // Check if Kylie is selected
     if (selectedWinner === KYLIE_OPTION) {
-      // Spin to a random segment visually, but announce Kylie as winner
-      winnerIndex = Math.floor(Math.random() * entries.length);
-      actualWinner = KYLIE_OPTION; // Kylie wins regardless of where wheel lands
+      // Check if Kylie exists in the entries (user typed it manually)
+      const kylieIndex = entries.findIndex(e => e.toLowerCase() === 'kylie');
+      if (kylieIndex !== -1) {
+        // Kylie is on the wheel - land on it
+        winnerIndex = kylieIndex;
+        actualWinner = entries[kylieIndex];
+      } else {
+        // Kylie not on wheel - spin randomly but announce Kylie
+        winnerIndex = Math.floor(Math.random() * entries.length);
+        actualWinner = KYLIE_OPTION;
+      }
     }
     // Check if random mode is selected
-    else if (selectedWinner === RANDOM_OPTION || !entries.includes(selectedWinner)) {
+    else if (selectedWinner === RANDOM_OPTION) {
       // True random selection
       winnerIndex = Math.floor(Math.random() * entries.length);
       actualWinner = entries[winnerIndex];
-    } else {
+    } 
+    // Check if selected winner exists in entries
+    else if (entries.includes(selectedWinner)) {
       // Predetermined winner from wheel
       winnerIndex = entries.indexOf(selectedWinner);
       actualWinner = selectedWinner;
+    }
+    else {
+      // Selected winner not in entries - random
+      winnerIndex = Math.floor(Math.random() * entries.length);
+      actualWinner = entries[winnerIndex];
     }
     
     const segmentCenterAngle = winnerIndex * segmentAngle + (segmentAngle / 2);
