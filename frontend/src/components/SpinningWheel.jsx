@@ -21,13 +21,32 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
       winnerIndex = 0;
     }
     
-    // Calculate the angle to stop at (pointer is on the right at 0 degrees)
-    // We need to position the winning segment under the pointer
-    const targetAngle = 360 - (winnerIndex * segmentAngle) - (segmentAngle / 2);
+    // The pointer is on the RIGHT side (at 0 degrees / 3 o'clock position)
+    // Segments start from the top (12 o'clock = -90 degrees in our SVG)
+    // To land the winning segment under the pointer:
+    // - First segment (index 0) center is at -90 + segmentAngle/2 degrees from top
+    // - To bring segment N to the right (0 degrees), we need to rotate so its center aligns with 0 degrees
+    // - Segment N center angle from top = N * segmentAngle + segmentAngle/2
+    // - We need to rotate the wheel so this angle aligns with 90 degrees (right side)
+    // - Required rotation = 90 - (N * segmentAngle + segmentAngle/2)
     
-    // Add multiple full rotations for effect
+    const segmentCenterAngle = winnerIndex * segmentAngle + (segmentAngle / 2);
+    const targetAngle = 90 - segmentCenterAngle;
+    
+    // Normalize to positive angle
+    const normalizedTarget = ((targetAngle % 360) + 360) % 360;
+    
+    // Add multiple full rotations for effect (spin clockwise)
     const fullRotations = 5 + Math.floor(Math.random() * 3);
-    const finalRotation = rotation + (fullRotations * 360) + targetAngle - (rotation % 360);
+    const currentNormalized = ((rotation % 360) + 360) % 360;
+    
+    // Calculate how much more we need to rotate
+    let additionalRotation = normalizedTarget - currentNormalized;
+    if (additionalRotation <= 0) {
+      additionalRotation += 360;
+    }
+    
+    const finalRotation = rotation + (fullRotations * 360) + additionalRotation;
     
     setRotation(finalRotation);
     
