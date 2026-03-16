@@ -1,7 +1,7 @@
 // Mock data for Wheel of Names clone
 
 export const defaultEntries = [
-  "Ali",
+  "Kylie",
   "Beatriz",
   "Charles",
   "Diya",
