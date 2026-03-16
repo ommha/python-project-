@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import { Settings } from 'lucide-react';
+import { Settings, Shuffle } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Add "Random" as a special option
+  const RANDOM_OPTION = "__RANDOM__";
+
+  const handleValueChange = (value) => {
+    setSelectedWinner(value);
+  };
 
   return (
     <div className="w-full bg-[#080810] py-8">
@@ -29,15 +36,39 @@ const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => 
             <div className="bg-[#1e1e2e] rounded-xl p-5 border border-gray-800/50 shadow-xl">
               <p className="text-xs text-gray-500 mb-3 text-center">Manage Output</p>
               
-              <Select value={selectedWinner} onValueChange={setSelectedWinner}>
+              <Select value={selectedWinner} onValueChange={handleValueChange}>
                 <SelectTrigger className="w-full bg-[#12121a] border-gray-700/50 text-gray-200 rounded-lg py-3 hover:border-blue-500/50 transition-all duration-200">
-                  <SelectValue placeholder="Select winner..." />
+                  <SelectValue placeholder="Select winner...">
+                    {selectedWinner === RANDOM_OPTION ? (
+                      <span className="flex items-center gap-2">
+                        <Shuffle className="w-4 h-4 text-green-400" />
+                        Random (True Random)
+                      </span>
+                    ) : (
+                      selectedWinner
+                    )}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent 
-                  className="bg-[#1e1e2e] border-gray-700/50 rounded-xl shadow-2xl z-50"
+                  className="bg-[#1e1e2e] border-gray-700/50 rounded-xl shadow-2xl"
                   position="popper"
                   sideOffset={5}
                 >
+                  {/* Random Option */}
+                  <SelectItem 
+                    value={RANDOM_OPTION}
+                    className="text-green-400 hover:bg-green-500/20 focus:bg-green-500/20 rounded-lg cursor-pointer px-3 py-2"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Shuffle className="w-4 h-4" />
+                      Random (True Random)
+                    </span>
+                  </SelectItem>
+                  
+                  {/* Divider */}
+                  <div className="h-px bg-gray-700/50 my-1"></div>
+                  
+                  {/* Name Options */}
                   {entries.map((entry, index) => (
                     <SelectItem 
                       key={index} 
@@ -51,7 +82,10 @@ const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => 
               </Select>
               
               <p className="text-xs text-gray-600 mt-3 text-center">
-                Wheel lands on selected name
+                {selectedWinner === RANDOM_OPTION 
+                  ? "Wheel will land on a truly random name"
+                  : "Wheel lands on selected name"
+                }
               </p>
             </div>
           </div>
