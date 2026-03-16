@@ -114,12 +114,15 @@ const Sidebar = ({
 
           {/* Entries Textarea */}
           <div className="flex-1 p-4 overflow-hidden">
-            <textarea
-              className="w-full h-56 p-4 bg-[#12121a] border border-gray-700/50 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-gray-200 placeholder-gray-500 text-sm leading-relaxed transition-all duration-200 overflow-y-auto"
-              value={textValue}
-              onChange={handleTextChange}
-              placeholder="Enter names, one per line..."
-            />
+            <div className="h-52 bg-[#12121a] border border-gray-700/50 rounded-xl overflow-hidden">
+              <textarea
+                className="w-full h-full p-4 bg-transparent resize-none focus:outline-none text-gray-200 placeholder-gray-500 text-sm leading-relaxed overflow-y-auto"
+                value={textValue}
+                onChange={handleTextChange}
+                placeholder="Enter names, one per line..."
+                style={{ scrollbarWidth: 'thin', scrollbarColor: '#4a5568 #1a1a2e' }}
+              />
+            </div>
           </div>
         </>
       )}
