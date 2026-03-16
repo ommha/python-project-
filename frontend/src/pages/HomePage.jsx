@@ -87,15 +87,15 @@ const HomePage = () => {
         </div>
       </div>
       
-      {/* Manage Output Section - At the bottom */}
+      {/* FAQ Section */}
+      <FAQSection />
+      
+      {/* Manage Output Section - At the very bottom */}
       <ManageOutputSection
         entries={entries}
         selectedWinner={selectedWinner}
         setSelectedWinner={setSelectedWinner}
       />
-      
-      {/* FAQ Section */}
-      <FAQSection />
       
       {/* Winner Modal */}
       <WinnerModal
