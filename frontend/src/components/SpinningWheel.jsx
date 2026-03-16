@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { wheelColors } from '../data/mock';
 
+const RANDOM_OPTION = "__RANDOM__";
+
 const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSpinning }) => {
   const [rotation, setRotation] = useState(0);
   const wheelRef = useRef(null);
@@ -13,10 +15,18 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
     setShowText(false);
     
     const segmentAngle = 360 / entries.length;
-    let winnerIndex = entries.indexOf(selectedWinner);
+    let winnerIndex;
+    let actualWinner;
     
-    if (winnerIndex === -1) {
-      winnerIndex = 0;
+    // Check if random mode is selected
+    if (selectedWinner === RANDOM_OPTION || !entries.includes(selectedWinner)) {
+      // True random selection
+      winnerIndex = Math.floor(Math.random() * entries.length);
+      actualWinner = entries[winnerIndex];
+    } else {
+      // Predetermined winner
+      winnerIndex = entries.indexOf(selectedWinner);
+      actualWinner = selectedWinner;
     }
     
     const segmentCenterAngle = winnerIndex * segmentAngle + (segmentAngle / 2);
@@ -37,7 +47,7 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
     setTimeout(() => {
       setIsSpinning(false);
       setShowText(true);
-      onSpinEnd(selectedWinner || entries[0]);
+      onSpinEnd(actualWinner);
     }, 5000);
   }, [isSpinning, entries, selectedWinner, rotation, setIsSpinning, onSpinEnd]);
 
