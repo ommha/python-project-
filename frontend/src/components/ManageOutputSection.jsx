@@ -38,16 +38,14 @@ const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => 
               
               <Select value={selectedWinner} onValueChange={handleValueChange}>
                 <SelectTrigger className="w-full bg-[#12121a] border-gray-700/50 text-gray-200 rounded-lg py-3 hover:border-blue-500/50 transition-all duration-200">
-                  <SelectValue placeholder="Select winner...">
-                    {selectedWinner === RANDOM_OPTION ? (
-                      <span className="flex items-center gap-2">
-                        <Shuffle className="w-4 h-4 text-green-400" />
-                        Random (True Random)
-                      </span>
-                    ) : (
-                      selectedWinner
-                    )}
-                  </SelectValue>
+                  {selectedWinner === RANDOM_OPTION ? (
+                    <span className="flex items-center gap-2 text-green-400">
+                      <Shuffle className="w-4 h-4" />
+                      Random (True Random)
+                    </span>
+                  ) : (
+                    <SelectValue placeholder="Select winner..." />
+                  )}
                 </SelectTrigger>
                 <SelectContent 
                   className="bg-[#1e1e2e] border-gray-700/50 rounded-xl shadow-2xl"
