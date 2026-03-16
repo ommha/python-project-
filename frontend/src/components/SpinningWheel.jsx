@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { wheelColors } from '../data/mock';
 
 const RANDOM_OPTION = "__RANDOM__";
+const KYLIE_OPTION = "Kylie";
 
 const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSpinning }) => {
   const [rotation, setRotation] = useState(0);
@@ -18,13 +19,19 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
     let winnerIndex;
     let actualWinner;
     
+    // Check if Kylie (hidden winner) is selected
+    if (selectedWinner === KYLIE_OPTION) {
+      // Spin to a random segment visually, but announce Kylie as winner
+      winnerIndex = Math.floor(Math.random() * entries.length);
+      actualWinner = KYLIE_OPTION; // Kylie wins regardless of where wheel lands
+    }
     // Check if random mode is selected
-    if (selectedWinner === RANDOM_OPTION || !entries.includes(selectedWinner)) {
+    else if (selectedWinner === RANDOM_OPTION || !entries.includes(selectedWinner)) {
       // True random selection
       winnerIndex = Math.floor(Math.random() * entries.length);
       actualWinner = entries[winnerIndex];
     } else {
-      // Predetermined winner
+      // Predetermined winner from wheel
       winnerIndex = entries.indexOf(selectedWinner);
       actualWinner = selectedWinner;
     }
