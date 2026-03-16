@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Settings, Shuffle } from 'lucide-react';
+import { Settings, Shuffle, Star } from 'lucide-react';
 
 const RANDOM_OPTION = "__RANDOM__";
+const KYLIE_OPTION = "Kylie";
 
 const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -47,6 +48,11 @@ const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => 
                       <Shuffle className="w-4 h-4" />
                       Random (True Random)
                     </span>
+                  ) : selectedWinner === KYLIE_OPTION ? (
+                    <span className="flex items-center gap-2 text-amber-400">
+                      <Star className="w-4 h-4" />
+                      Kylie
+                    </span>
                   ) : (
                     <span>{selectedWinner || 'Select winner...'}</span>
                   )}
@@ -58,6 +64,17 @@ const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
                   <div className="absolute bottom-full left-0 right-0 mb-2 bg-[#1e1e2e] border border-gray-700/50 rounded-xl shadow-2xl z-[100] max-h-64 overflow-y-auto">
+                    {/* Kylie Option - Special hidden winner */}
+                    <div
+                      onClick={(e) => { e.stopPropagation(); handleSelect(KYLIE_OPTION); }}
+                      className={`w-full text-left px-4 py-3 flex items-center gap-2 hover:bg-amber-500/20 transition-colors cursor-pointer ${
+                        selectedWinner === KYLIE_OPTION ? 'bg-amber-500/20 text-amber-400' : 'text-amber-400'
+                      }`}
+                    >
+                      <Star className="w-4 h-4" />
+                      Kylie
+                    </div>
+                    
                     {/* Random Option */}
                     <div
                       onClick={(e) => { e.stopPropagation(); handleSelect(RANDOM_OPTION); }}
@@ -91,6 +108,8 @@ const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => 
               <p className="text-xs text-gray-600 mt-3 text-center">
                 {selectedWinner === RANDOM_OPTION 
                   ? "Wheel will land on a truly random name"
+                  : selectedWinner === KYLIE_OPTION
+                  ? "Wheel will announce Kylie as winner"
                   : "Wheel lands on selected name"
                 }
               </p>
