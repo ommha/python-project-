@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Settings, Shuffle } from 'lucide-react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+
+const RANDOM_OPTION = "__RANDOM__";
 
 const ManageOutputSection = ({ entries, selectedWinner, setSelectedWinner }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Add "Random" as a special option
-  const RANDOM_OPTION = "__RANDOM__";
-
-  const handleValueChange = (value) => {
+  const handleSelect = (value) => {
     setSelectedWinner(value);
+    setIsDropdownOpen(false);
   };
 
   return (
