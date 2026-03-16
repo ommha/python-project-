@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { wheelColors } from '../data/mock';
 
 const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSpinning }) => {
@@ -6,7 +6,7 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
   const wheelRef = useRef(null);
   const [showText, setShowText] = useState(true);
 
-  const spinWheel = () => {
+  const spinWheel = useCallback(() => {
     if (isSpinning || entries.length === 0) return;
     
     setIsSpinning(true);
@@ -37,18 +37,18 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
       setShowText(true);
       onSpinEnd(selectedWinner || entries[0]);
     }, 5000);
-  };
+  }, [isSpinning, entries, selectedWinner, rotation, setIsSpinning, onSpinEnd]);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = useCallback((e) => {
     if (e.ctrlKey && e.key === 'Enter') {
       spinWheel();
     }
-  };
+  }, [spinWheel]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isSpinning, selectedWinner, entries]);
+  }, [handleKeyDown]);
 
   if (entries.length === 0) {
     return (
@@ -99,10 +99,10 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
             
             const pathData = `M 250 250 L ${x1} ${y1} A 230 230 0 ${largeArc} 1 ${x2} ${y2} Z`;
             
-            // Text position
+            // Text position - positioned along the radius
             const midAngle = (startAngle + endAngle) / 2 - 90;
             const midRad = midAngle * (Math.PI / 180);
-            const textRadius = 150;
+            const textRadius = 155;
             const textX = 250 + textRadius * Math.cos(midRad);
             const textY = 250 + textRadius * Math.sin(midRad);
             
@@ -113,14 +113,17 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
                   x={textX}
                   y={textY}
                   fill="white"
-                  fontSize="18"
+                  fontSize="16"
                   fontWeight="bold"
                   textAnchor="middle"
                   dominantBaseline="middle"
                   transform={`rotate(${midAngle + 90}, ${textX}, ${textY})`}
-                  style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}
+                  style={{ 
+                    textShadow: '1px 1px 2px rgba(0,0,0,0.3)',
+                    fontFamily: 'Arial, sans-serif'
+                  }}
                 >
-                  {entry.length > 12 ? entry.substring(0, 12) + '...' : entry}
+                  {entry.length > 10 ? entry.substring(0, 10) + '...' : entry}
                 </text>
               </g>
             );
@@ -134,10 +137,10 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
         {showText && !isSpinning && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="text-center">
-              <p className="text-white text-2xl font-bold drop-shadow-lg" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+              <p className="text-white text-2xl font-bold" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
                 Click to spin
               </p>
-              <p className="text-white text-lg drop-shadow-lg mt-2" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+              <p className="text-white text-base mt-1" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
                 or press ctrl+enter
               </p>
             </div>
@@ -146,7 +149,7 @@ const SpinningWheel = ({ entries, onSpinEnd, selectedWinner, isSpinning, setIsSp
       </div>
       
       {/* Pointer */}
-      <div className="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2" style={{ marginRight: '-18px' }}>
+      <div className="absolute right-0 top-1/2 transform translate-x-2 -translate-y-1/2" style={{ marginRight: '-20px' }}>
         <svg width="40" height="40" viewBox="0 0 40 40">
           <polygon points="0,10 0,30 35,20" fill="#3498db" />
         </svg>
