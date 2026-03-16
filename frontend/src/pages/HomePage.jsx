@@ -13,7 +13,7 @@ const HomePage = () => {
   const [results, setResults] = useState([]);
   const [winner, setWinner] = useState(null);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
-  const [selectedWinner, setSelectedWinner] = useState('__RANDOM__'); // Default to random
+  const [selectedWinner, setSelectedWinner] = useState('Kylie'); // Default to Kylie
   const [isSpinning, setIsSpinning] = useState(false);
 
   const handleSpinEnd = (winningEntry) => {
