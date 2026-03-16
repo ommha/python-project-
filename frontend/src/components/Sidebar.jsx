@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Shuffle, ArrowUpDown, Image, Plus, ChevronDown, ChevronRight, Settings, Target } from 'lucide-react';
+import { Shuffle, ArrowUpDown, Image, Plus, ChevronDown, ChevronRight } from 'lucide-react';
 import { Button } from './ui/button';
 import { Checkbox } from './ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 const Sidebar = ({ 
   entries, 
   setEntries, 
-  results, 
-  selectedWinner, 
-  setSelectedWinner,
-  showAdminPanel,
-  setShowAdminPanel
+  results
 }) => {
   const [activeTab, setActiveTab] = useState('entries');
   const [textValue, setTextValue] = useState(entries.join('\n'));
@@ -40,36 +35,36 @@ const Sidebar = ({
   };
 
   return (
-    <div className="w-80 bg-gray-900/95 backdrop-blur-sm rounded-lg shadow-lg flex flex-col" style={{ maxHeight: 'calc(100vh - 120px)' }}>
+    <div className="w-80 bg-[#1e1e2e] rounded-xl shadow-2xl flex flex-col border border-gray-800/50" style={{ maxHeight: 'calc(100vh - 100px)' }}>
       {/* Tabs */}
-      <div className="flex border-b border-gray-700">
+      <div className="flex border-b border-gray-700/50">
         <button
-          className={`flex-1 py-3 px-4 flex items-center justify-center gap-2 transition-colors ${
+          className={`flex-1 py-3.5 px-4 flex items-center justify-center gap-2 transition-all duration-200 ${
             activeTab === 'entries'
-              ? 'text-blue-400 border-b-2 border-blue-400 bg-gray-800/50'
-              : 'text-gray-400 hover:text-gray-200'
+              ? 'text-white border-b-2 border-blue-500 bg-blue-500/10'
+              : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/30'
           }`}
           onClick={() => setActiveTab('entries')}
         >
-          <ChevronRight className={`w-4 h-4 ${activeTab === 'entries' ? 'text-blue-400' : ''}`} />
-          <span>Entries</span>
-          <span className={`text-xs px-2 py-0.5 rounded-full ${
-            activeTab === 'entries' ? 'bg-blue-500/20 text-blue-400' : 'bg-gray-700 text-gray-400'
+          <ChevronRight className={`w-4 h-4 transition-transform ${activeTab === 'entries' ? 'text-blue-400' : ''}`} />
+          <span className="font-medium">Entries</span>
+          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+            activeTab === 'entries' ? 'bg-blue-500/20 text-blue-400' : 'bg-gray-700/50 text-gray-400'
           }`}>
             {entries.length}
           </span>
         </button>
         <button
-          className={`flex-1 py-3 px-4 flex items-center justify-center gap-2 transition-colors ${
+          className={`flex-1 py-3.5 px-4 flex items-center justify-center gap-2 transition-all duration-200 ${
             activeTab === 'results'
-              ? 'text-blue-400 border-b-2 border-blue-400 bg-gray-800/50'
-              : 'text-gray-400 hover:text-gray-200'
+              ? 'text-white border-b-2 border-blue-500 bg-blue-500/10'
+              : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/30'
           }`}
           onClick={() => setActiveTab('results')}
         >
-          <span>Results</span>
-          <span className={`text-xs px-2 py-0.5 rounded-full ${
-            activeTab === 'results' ? 'bg-blue-500/20 text-blue-400' : 'bg-gray-700 text-gray-400'
+          <span className="font-medium">Results</span>
+          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+            activeTab === 'results' ? 'bg-blue-500/20 text-blue-400' : 'bg-gray-700/50 text-gray-400'
           }`}>
             {results.length}
           </span>
@@ -79,106 +74,72 @@ const Sidebar = ({
       {activeTab === 'entries' && (
         <>
           {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-2 p-3 border-b border-gray-700">
+          <div className="flex flex-wrap items-center gap-2 p-4 border-b border-gray-700/50">
             <Button
               variant="default"
               size="sm"
-              className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1 text-xs px-3"
+              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-1.5 text-xs px-3 py-2 rounded-lg shadow-lg shadow-blue-500/20 transition-all duration-200"
               onClick={shuffleEntries}
             >
-              <Shuffle className="w-3 h-3" />
+              <Shuffle className="w-3.5 h-3.5" />
               Shuffle
             </Button>
             <Button
               variant="default"
               size="sm"
-              className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1 text-xs px-3"
+              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-1.5 text-xs px-3 py-2 rounded-lg shadow-lg shadow-blue-500/20 transition-all duration-200"
               onClick={sortEntries}
             >
-              <ArrowUpDown className="w-3 h-3" />
+              <ArrowUpDown className="w-3.5 h-3.5" />
               Sort
             </Button>
             <Button
               variant="default"
               size="sm"
-              className="bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-1 text-xs px-3"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5 text-xs px-3 py-2 rounded-lg shadow-lg shadow-emerald-500/20 transition-all duration-200"
             >
-              <Image className="w-3 h-3" />
+              <Image className="w-3.5 h-3.5" />
               Add image
               <ChevronDown className="w-3 h-3" />
             </Button>
-            <div className="flex items-center gap-1 ml-auto">
-              <Checkbox id="advanced" className="border-gray-600" />
-              <label htmlFor="advanced" className="text-xs text-gray-400">Advanced</label>
+          </div>
+          
+          {/* Advanced checkbox */}
+          <div className="px-4 py-2 border-b border-gray-700/50">
+            <div className="flex items-center gap-2">
+              <Checkbox id="advanced" className="border-gray-600 data-[state=checked]:bg-blue-600" />
+              <label htmlFor="advanced" className="text-sm text-gray-400 cursor-pointer">Advanced</label>
             </div>
           </div>
 
           {/* Entries Textarea */}
-          <div className="flex-1 p-3 overflow-hidden">
+          <div className="flex-1 p-4">
             <textarea
-              className="w-full h-48 p-3 bg-gray-800 border border-gray-700 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-200 placeholder-gray-500"
+              className="w-full h-64 p-4 bg-[#12121a] border border-gray-700/50 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-gray-200 placeholder-gray-500 text-sm leading-relaxed transition-all duration-200"
               value={textValue}
               onChange={handleTextChange}
               placeholder="Enter names, one per line..."
             />
           </div>
-
-          {/* Settings Section */}
-          <div className="p-3 border-t border-gray-700">
-            <button
-              onClick={() => setShowAdminPanel(!showAdminPanel)}
-              className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-200 w-full"
-            >
-              <Settings className="w-4 h-4" />
-              <span>Settings</span>
-              <ChevronDown className={`w-4 h-4 ml-auto transition-transform ${showAdminPanel ? 'rotate-180' : ''}`} />
-            </button>
-            
-            {showAdminPanel && (
-              <div className="mt-3 space-y-3">
-                {/* Manage Output Section */}
-                <div className="p-3 bg-gray-800 rounded-lg border border-gray-700">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Target className="w-4 h-4 text-blue-400" />
-                    <label className="text-sm font-medium text-gray-300">
-                      Manage Output
-                    </label>
-                  </div>
-                  <Select value={selectedWinner} onValueChange={setSelectedWinner}>
-                    <SelectTrigger className="w-full bg-gray-700 border-gray-600 text-gray-200">
-                      <SelectValue placeholder="Select winner..." />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700">
-                      {entries.map((entry, index) => (
-                        <SelectItem key={index} value={entry} className="text-gray-200 hover:bg-gray-700">
-                          {entry}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <p className="text-xs text-gray-500 mt-2">
-                    The wheel will always land on the selected name.
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
         </>
       )}
 
       {activeTab === 'results' && (
-        <div className="flex-1 p-3 overflow-auto min-h-[200px]">
+        <div className="flex-1 p-4 overflow-auto">
           {results.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">
-              <p>No results yet</p>
-              <p className="text-sm mt-1">Spin the wheel to see results here</p>
+            <div className="text-center text-gray-500 py-12">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-800/50 flex items-center justify-center">
+                <ChevronRight className="w-8 h-8 text-gray-600" />
+              </div>
+              <p className="font-medium">No results yet</p>
+              <p className="text-sm mt-1 text-gray-600">Spin the wheel to see results here</p>
             </div>
           ) : (
-            <ul className="space-y-1">
+            <ul className="space-y-2">
               {results.map((result, index) => (
-                <li key={index} className="flex items-center justify-between px-3 py-2 hover:bg-gray-800 rounded transition-colors">
-                  <span className="text-gray-200">{result}</span>
-                  <span className="text-xs text-gray-500">#{results.length - index}</span>
+                <li key={index} className="flex items-center justify-between px-4 py-3 bg-[#12121a] hover:bg-gray-800/50 rounded-xl transition-all duration-200 border border-gray-700/30">
+                  <span className="text-gray-200 font-medium">{result}</span>
+                  <span className="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded-full">#{results.length - index}</span>
                 </li>
               ))}
             </ul>
@@ -187,21 +148,19 @@ const Sidebar = ({
       )}
 
       {/* Add Wheel Button */}
-      <div className="p-3 border-t border-gray-700">
-        <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center gap-2">
+      <div className="p-4 border-t border-gray-700/50">
+        <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white flex items-center justify-center gap-2 py-3 rounded-xl shadow-lg shadow-blue-500/20 transition-all duration-200">
           <Plus className="w-4 h-4" />
           Add wheel
-          <span className="text-xs bg-yellow-400 text-yellow-900 px-1.5 py-0.5 rounded ml-1">Beta</span>
+          <span className="text-xs bg-amber-400 text-amber-900 px-2 py-0.5 rounded-full font-semibold ml-1">Beta</span>
           <ChevronDown className="w-4 h-4 ml-auto" />
         </Button>
       </div>
 
       {/* Version */}
-      <div className="p-3 border-t border-gray-700 flex items-center justify-between text-sm">
-        <div className="flex items-center gap-2">
-          <span className="text-gray-500">Version 405</span>
-        </div>
-        <a href="#" className="text-blue-400 hover:underline">Changelog</a>
+      <div className="px-4 py-3 border-t border-gray-700/50 flex items-center justify-between text-sm">
+        <span className="text-gray-500">Version 405</span>
+        <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors">Changelog</a>
       </div>
     </div>
   );

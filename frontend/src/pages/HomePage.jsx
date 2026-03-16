@@ -4,6 +4,7 @@ import SpinningWheel from '../components/SpinningWheel';
 import Sidebar from '../components/Sidebar';
 import WinnerModal from '../components/WinnerModal';
 import FAQSection from '../components/FAQSection';
+import ManageOutputSection from '../components/ManageOutputSection';
 import { defaultEntries } from '../data/mock';
 import { Pencil, Flag, X } from 'lucide-react';
 
@@ -14,7 +15,6 @@ const HomePage = () => {
   const [showWinnerModal, setShowWinnerModal] = useState(false);
   const [selectedWinner, setSelectedWinner] = useState(entries[0] || '');
   const [isSpinning, setIsSpinning] = useState(false);
-  const [showAdminPanel, setShowAdminPanel] = useState(false);
 
   const handleSpinEnd = (winningEntry) => {
     setWinner(winningEntry);
@@ -38,13 +38,13 @@ const HomePage = () => {
   }, [entries, selectedWinner]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-gray-900 to-black">
+    <div className="min-h-screen flex flex-col bg-[#0d0d14]">
       <Header />
       
       <div className="flex-1 flex">
         {/* Left Side - Floating Button */}
-        <div className="w-16 flex flex-col items-center pt-4">
-          <button className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center shadow-lg hover:scale-110 transition-transform hover:bg-blue-600">
+        <div className="w-16 flex flex-col items-center pt-6">
+          <button className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 hover:scale-105 transition-all duration-200 hover:shadow-blue-500/40">
             <Pencil className="w-5 h-5 text-white" />
           </button>
         </div>
@@ -52,13 +52,13 @@ const HomePage = () => {
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col">
           {/* Ad placeholder - Left */}
-          <div className="px-4 py-2 text-sm text-gray-500">
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1 cursor-pointer hover:text-gray-400">
+          <div className="px-4 py-3 text-sm text-gray-600">
+            <div className="flex items-center gap-6">
+              <span className="flex items-center gap-1.5 cursor-pointer hover:text-gray-400 transition-colors">
                 <Flag className="w-4 h-4" />
                 Report bad ad
               </span>
-              <span className="flex items-center gap-1 cursor-pointer hover:text-gray-400">
+              <span className="flex items-center gap-1.5 cursor-pointer hover:text-gray-400 transition-colors">
                 Close ads
                 <X className="w-4 h-4" />
               </span>
@@ -66,7 +66,7 @@ const HomePage = () => {
           </div>
           
           {/* Wheel Section */}
-          <div className="flex-1 flex items-center justify-center py-8">
+          <div className="flex-1 flex items-center justify-center py-6">
             <SpinningWheel
               entries={entries}
               onSpinEnd={handleSpinEnd}
@@ -75,24 +75,27 @@ const HomePage = () => {
               setIsSpinning={setIsSpinning}
             />
           </div>
-          
-          {/* FAQ Section */}
-          <FAQSection />
         </div>
         
         {/* Right Sidebar */}
-        <div className="w-96 p-4">
+        <div className="w-96 p-5">
           <Sidebar
             entries={entries}
             setEntries={setEntries}
             results={results}
-            selectedWinner={selectedWinner}
-            setSelectedWinner={setSelectedWinner}
-            showAdminPanel={showAdminPanel}
-            setShowAdminPanel={setShowAdminPanel}
           />
         </div>
       </div>
+      
+      {/* Manage Output Section - At the bottom */}
+      <ManageOutputSection
+        entries={entries}
+        selectedWinner={selectedWinner}
+        setSelectedWinner={setSelectedWinner}
+      />
+      
+      {/* FAQ Section */}
+      <FAQSection />
       
       {/* Winner Modal */}
       <WinnerModal
